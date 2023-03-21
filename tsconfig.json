@@ -19,12 +19,12 @@
     "baseUrl": ".",
     "paths": {
       "src/*": ["./src/*"],
-      "@features/*": ["./src/features"],
-      "@components/*": ["./src/components"],
-      "@pages/*": ["./src/pages"],
-      "@server/*": ["./src/server"],
-      "@theme/*": ["./src/theme"],
-      "@utils/*": ["./src/utils"],
+      "@features/*": ["./src/features/*"],
+      "@components/*": ["./src/components/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@server/*": ["./src/server/*"],
+      "@theme/*": ["./src/theme/*"],
+      "@utils/*": ["./src/utils/*"],
     }
   },
   "include": [
