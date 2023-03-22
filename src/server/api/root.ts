@@ -1,13 +1,15 @@
 import { createTRPCRouter } from "src/server/api/trpc";
-import { exampleRouter } from "src/server/api/routers/example";
+import { heroRouter } from "@features/hero/api/index";
+import { guideRouter } from "src/features/guide/api";
 
 /**
  * This is the primary router for your server.
  *
- * All routers added in /api/routers should be manually added here.
+ * All routers added in /features/.../api should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  example: exampleRouter,
+  guide: guideRouter,
+  hero: heroRouter,
 });
 
 // export type definition of API
