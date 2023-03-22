@@ -49,6 +49,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    Guide         Guide[]
 }
 
 model VerificationToken {
@@ -57,4 +58,29 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Hero {
+    id        String  @id @default(cuid())
+    name      String
+    image_url String
+    Guide     Guide[]
+}
+
+enum Role {
+    EXP
+    JUNGLE
+    ROAM
+    MID
+    GOLD
+}
+
+model Guide {
+    id     String @id @default(cuid())
+    title  String
+    hero   Hero   @relation(fields: [heroId], references: [id])
+    heroId String
+    role   Role
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
 }

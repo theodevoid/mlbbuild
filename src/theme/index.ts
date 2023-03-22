@@ -1,8 +1,10 @@
+import { fonts } from "./font";
 import { config } from "./config";
 import { colors } from "./colors";
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, ThemeOverride } from "@chakra-ui/react";
 
-export const theme = extendTheme({
-  colors,
-  config,
+export const theme: ThemeOverride = extendTheme({
+  ...fonts,
+  ...colors,
+  ...config,
 });
