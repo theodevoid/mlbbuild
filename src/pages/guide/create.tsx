@@ -1,6 +1,6 @@
 import { Heading, Container } from "@chakra-ui/react";
-import ProtectedPage from "src/components/ProtectedPage";
-import BasicInfoForm from "src/features/guide/components/BasicInfoForm";
+import ProtectedPage from "@components/ProtectedPage";
+import BasicInfoForm from "@features/guide/components/BasicInfoForm";
 
 const CreatePage = () => {
   return (
