@@ -5,10 +5,11 @@ import {
   Icon,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 
@@ -29,23 +30,36 @@ const Navbar = () => {
         <Button variant="ghost">Explore</Button>
       </HStack>
       <HStack gap="4">
-        <Link href="/guide/create">
-          <Button rightIcon={<Icon as={FiPlus} />}>Create Build</Button>
-        </Link>
-        <Menu>
-          <MenuButton>
-            <Avatar
-              _hover={{
-                cursor: "pointer",
-              }}
-              src={user?.user?.image || ""}
-            />
-          </MenuButton>
-          <MenuList>
-            <MenuItem>Profilku</MenuItem>
-            <MenuItem>Guide yang aku bikin</MenuItem>
-          </MenuList>
-        </Menu>
+        {user ? (
+          <>
+            <Link href="/guide/create">
+              <Button rightIcon={<Icon as={FiPlus} />}>Create Build</Button>
+            </Link>
+            <Menu>
+              <MenuButton>
+                <Avatar
+                  _hover={{
+                    cursor: "pointer",
+                  }}
+                  src={user?.user?.image || ""}
+                />
+              </MenuButton>
+              <MenuList>
+                <MenuItem>Profilku</MenuItem>
+                <MenuItem>Guide yang aku bikin</MenuItem>
+                <MenuDivider />
+                <MenuItem
+                  color="red.300"
+                  onClick={() => void signOut()}
+                >
+                  Logout
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </>
+        ) : (
+          <Button onClick={() => void signIn()}>Login</Button>
+        )}
       </HStack>
     </HStack>
   );
