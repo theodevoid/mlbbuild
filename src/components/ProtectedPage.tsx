@@ -1,4 +1,4 @@
-import {  Center, Container, Spinner, Text } from "@chakra-ui/react";
+import { Center, Container, Spinner, Text } from "@chakra-ui/react";
 import { signIn, useSession } from "next-auth/react";
 import { PropsWithChildren } from "react";
 
@@ -18,8 +18,14 @@ const ProtectedPage: React.FC<PropsWithChildren> = ({ children }) => {
   if (status === "unauthenticated") {
     return (
       <Container py="20">
-        <Text fontSize="3xl" textAlign="center">
-          <Text _hover={{ cursor: "pointer" }} onClick={signIn as () => void}>
+        <Text
+          fontSize="3xl"
+          textAlign="center"
+        >
+          <Text
+            _hover={{ cursor: "pointer" }}
+            onClick={signIn as () => void}
+          >
             Login
           </Text>
           untuk akses halaman ini

@@ -8,7 +8,7 @@ export const createGuide = protectedProcedure
       title: z.string(),
       heroId: z.string(),
       role: z.nativeEnum(Role),
-    })
+    }),
   )
   .mutation(async ({ ctx, input }) => {
     const { prisma, session } = ctx;

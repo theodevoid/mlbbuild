@@ -1,22 +1,25 @@
-import { Heading, Container, Grid, GridItem } from "@chakra-ui/react";
+import { Container, Grid, GridItem } from "@chakra-ui/react";
 import ProtectedPage from "@components/ProtectedPage";
-import BasicInfoForm from "@features/guide/components/BasicInfoForm";
+import { useRouter } from "next/router";
+import EditSpellForm from "src/features/guide/components/EditSpellForm";
 
-const CreatePage = () => {
+const EditSpellPage = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
   return (
     <ProtectedPage>
       <Container
         maxW="container.md"
         py="10"
       >
-        <Heading size="lg">Buat sebuah guide</Heading>
         <Grid
           templateColumns="repeat(4, 1fr)"
           w="100%"
           mt="8"
         >
           <GridItem colSpan={3}>
-            <BasicInfoForm />
+            <EditSpellForm guideId={id as string} />
           </GridItem>
         </Grid>
       </Container>
@@ -24,4 +27,4 @@ const CreatePage = () => {
   );
 };
 
-export default CreatePage;
+export default EditSpellPage;

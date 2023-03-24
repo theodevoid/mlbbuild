@@ -1,4 +1,4 @@
-import { ThemeOverride } from '@chakra-ui/react';
+import { ThemeOverride } from "@chakra-ui/react";
 
 export const colors: ThemeOverride = {
   colors: {

@@ -76,11 +76,29 @@ enum Role {
 }
 
 model Guide {
-    id     String @id @default(cuid())
-    title  String
-    hero   Hero   @relation(fields: [heroId], references: [id])
-    heroId String
-    role   Role
-    user   User   @relation(fields: [userId], references: [id])
-    userId String
+    id         String       @id @default(cuid())
+    title      String
+    hero       Hero         @relation(fields: [heroId], references: [id])
+    heroId     String
+    role       Role
+    user       User         @relation(fields: [userId], references: [id])
+    userId     String
+    SpellGuide SpellGuide[]
+}
+
+model Spell {
+    id          String       @id @default(cuid())
+    name        String
+    image_url   String
+    description String
+    SpellGuide  SpellGuide[]
+}
+
+model SpellGuide {
+    id      String @id @default(cuid())
+    title   String
+    spell   Spell  @relation(fields: [spellId], references: [id])
+    spellId String
+    guide   Guide  @relation(fields: [guideId], references: [id])
+    guideId String
 }
