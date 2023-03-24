@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import EditSpellForm from "@features/guide/components/EditSpellForm";
 import { api } from "@utils/api";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useGuardBelongsToUser } from "@utils/useGuardBelongsToUser";
 
 const EditSpellPage = () => {
   const { data: session, status } = useSession();
@@ -16,17 +16,11 @@ const EditSpellPage = () => {
     id: id as string,
   });
 
-  // if guide does not belong to user, user will be redirected to home
-  // TODO: make a util hook for this
-  useEffect(() => {
-    if (
-      status !== "loading" &&
-      !isLoading &&
-      guide?.userId !== session?.user.id
-    ) {
-      void router.push("/");
-    }
-  }, [status, isLoading, guide?.userId, session?.user.id, router]);
+  useGuardBelongsToUser({
+    isLoaded: status !== "loading" && !isLoading,
+    belongsToUser: guide?.userId === session?.user.id,
+    router,
+  });
 
   return (
     <ProtectedPage>
