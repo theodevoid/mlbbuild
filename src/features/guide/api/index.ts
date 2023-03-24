@@ -1,3 +1,4 @@
+import { getGuide } from "./getGuide";
 import { createSpellGuide } from "./createSpellGuide";
 import { getSpellGuidesByGuideId } from "./getSpellGuideByGuideId";
 import { createGuide } from "./createGuide";
@@ -7,4 +8,5 @@ export const guideRouter = createTRPCRouter({
   createGuide,
   getSpellGuidesByGuideId,
   createSpellGuide,
+  getGuide,
 });
