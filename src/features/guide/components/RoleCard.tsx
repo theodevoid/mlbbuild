@@ -54,7 +54,11 @@ const RoleCard: React.FC<RoleCardProps> = ({
     >
       <Box>
         {roles[role].icon}
-        <Text color="gray.500" textAlign="center" fontSize="sm">
+        <Text
+          color="gray.500"
+          textAlign="center"
+          fontSize="sm"
+        >
           {roles[role].name}
         </Text>
       </Box>

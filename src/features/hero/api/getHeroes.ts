@@ -6,7 +6,7 @@ export const getHeroes = publicProcedure
   .input(
     z.object({
       heroName: z.string().optional(),
-    })
+    }),
   )
   .query(async ({ ctx, input }) => {
     const { prisma } = ctx;

@@ -1,6 +1,7 @@
-import { createTRPCRouter } from "src/server/api/trpc";
+import { spellRouter } from "./../../features/spell/api/index";
+import { createTRPCRouter } from "@server/api/trpc";
 import { heroRouter } from "@features/hero/api/index";
-import { guideRouter } from "src/features/guide/api";
+import { guideRouter } from "@features/guide/api";
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { guideRouter } from "src/features/guide/api";
 export const appRouter = createTRPCRouter({
   guide: guideRouter,
   hero: heroRouter,
+  spell: spellRouter,
 });
 
 // export type definition of API

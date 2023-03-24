@@ -1,8 +1,6 @@
 import {
   Input,
-  Grid,
   HStack,
-  GridItem,
   FormLabel,
   FormControl,
   Box,
@@ -15,7 +13,7 @@ import RoleCard from "@features/guide/components/RoleCard";
 import { Hero, Role } from "@prisma/client";
 import { useFormik } from "formik";
 import { api } from "@utils/api";
-import HeroCard from "./HeroCard";
+import ItemCard from "./ItemCard";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 
@@ -29,7 +27,7 @@ interface BasicInfoFormValues {
 const BasicInfoForm = () => {
   const { data: heroes } = api.hero.getHeroes.useQuery(
     {},
-    { refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false },
   );
   const { mutateAsync: createGuide, isLoading } =
     api.guide.createGuide.useMutation();
@@ -61,7 +59,7 @@ const BasicInfoForm = () => {
         title,
       });
 
-      await router.push(`/guide/${guide.id}/edit`);
+      await router.push(`/guide/${guide.id}/edit/spell`);
     },
     validateOnChange: false,
   });
@@ -72,7 +70,7 @@ const BasicInfoForm = () => {
     return heroes?.map((hero) => {
       if (hero.name.toLowerCase().includes(lowerCaseHeroNameFilter))
         return (
-          <HeroCard
+          <ItemCard
             id={hero.id}
             image_url={hero.image_url}
             name={hero.name}
@@ -108,57 +106,67 @@ const BasicInfoForm = () => {
         void formik.submitForm();
       }}
     >
-      <Grid templateColumns="repeat(4, 1fr)" w="100%" mt="8">
-        <GridItem colSpan={3}>
-          <Box>
-            <FormControl mt="2" isInvalid={!!formik.errors.title}>
-              <FormLabel>1. Judul guide</FormLabel>
-              <Textarea
-                {...formik.getFieldProps("title")}
-                name="title"
-                placeholder="Build Helcurt tersakit 2023.."
-                resize={"none"}
-              />
-              <FormErrorMessage>{formik.errors.title}</FormErrorMessage>
-            </FormControl>
-          </Box>
-          <Box mt="6">
-            <FormLabel>2. Pilih hero</FormLabel>
-            <Input
-              {...formik.getFieldProps("heroName")}
-              name="heroName"
-              placeholder="Cari hero.."
-            />
-            <FormControl mt="2" isInvalid={!!formik.errors.selectedHero}>
-              <FormErrorMessage>{formik.errors.selectedHero}</FormErrorMessage>
-              {formik.values.selectedHero && (
-                <FormHelperText>
-                  Hero terpilih: {formik.values.selectedHero.name}
-                </FormHelperText>
-              )}
-            </FormControl>
-            <HStack
-              gap={5}
-              py="4"
-              px="2"
-              overflowX="scroll"
-              h="150"
-              overflowY="hidden"
-            >
-              {renderHeroes()}
-            </HStack>
-          </Box>
-          <Box mt="6">
-            <FormLabel>3. Pilih role</FormLabel>
-            <FormControl mt="2" isInvalid={!!formik.errors.selectedRole}>
-              <FormErrorMessage>{formik.errors.selectedRole}</FormErrorMessage>
-            </FormControl>
-            <HStack gap={5} py="4" px="2" overflowX="scroll">
-              {renderRoles()}
-            </HStack>
-          </Box>
-        </GridItem>
-      </Grid>
+      <Box>
+        <FormControl
+          mt="2"
+          isInvalid={!!formik.errors.title}
+        >
+          <FormLabel>1. Judul guide</FormLabel>
+          <Textarea
+            {...formik.getFieldProps("title")}
+            name="title"
+            placeholder="Build Helcurt tersakit 2023.."
+            resize={"none"}
+          />
+          <FormErrorMessage>{formik.errors.title}</FormErrorMessage>
+        </FormControl>
+      </Box>
+      <Box mt="6">
+        <FormLabel>2. Pilih hero</FormLabel>
+        <Input
+          {...formik.getFieldProps("heroName")}
+          name="heroName"
+          placeholder="Cari hero.."
+        />
+        <FormControl
+          mt="2"
+          isInvalid={!!formik.errors.selectedHero}
+        >
+          <FormErrorMessage>{formik.errors.selectedHero}</FormErrorMessage>
+          {formik.values.selectedHero && (
+            <FormHelperText>
+              Hero terpilih: {formik.values.selectedHero.name}
+            </FormHelperText>
+          )}
+        </FormControl>
+        <HStack
+          gap={5}
+          py="4"
+          px="2"
+          overflowX="scroll"
+          h="150"
+          overflowY="hidden"
+        >
+          {renderHeroes()}
+        </HStack>
+      </Box>
+      <Box mt="6">
+        <FormLabel>3. Pilih role</FormLabel>
+        <FormControl
+          mt="2"
+          isInvalid={!!formik.errors.selectedRole}
+        >
+          <FormErrorMessage>{formik.errors.selectedRole}</FormErrorMessage>
+        </FormControl>
+        <HStack
+          gap={5}
+          py="4"
+          px="2"
+          overflowX="scroll"
+        >
+          {renderRoles()}
+        </HStack>
+      </Box>
       <Button
         type="submit"
         isLoading={isLoading}

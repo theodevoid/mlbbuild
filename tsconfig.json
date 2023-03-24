@@ -24,7 +24,7 @@
       "@pages/*": ["./src/pages/*"],
       "@server/*": ["./src/server/*"],
       "@theme/*": ["./src/theme/*"],
-      "@utils/*": ["./src/utils/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": [
