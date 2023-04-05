@@ -9,12 +9,23 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 
 const Navbar = () => {
-  const { data: user } = useSession();
+  const supabase = useSupabaseClient();
+  const user = useUser();
+
+  const signIn = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+  };
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+  };
 
   return (
     <HStack
@@ -41,7 +52,7 @@ const Navbar = () => {
                   _hover={{
                     cursor: "pointer",
                   }}
-                  src={user?.user?.image || ""}
+                  name={user.email}
                 />
               </MenuButton>
               <MenuList>
