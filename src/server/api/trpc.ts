@@ -15,9 +15,7 @@
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { type Session } from "next-auth";
-
-import { getServerAuthSession } from "src/server/auth";
+import { Session } from "@supabase/supabase-js";
 import { prisma } from "src/server/db";
 
 type CreateContextOptions = {
@@ -48,10 +46,12 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  const { req, res } = opts;
+  const supabase = createServerSupabaseClient(opts, {
+    supabaseKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    supabaseUrl: env.NEXT_PUBLIC_SUPABASE_URL,
+  });
 
-  // Get the session from the server using the getServerSession wrapper function
-  const session = await getServerAuthSession({ req, res });
+  const { session } = (await supabase.auth.getSession()).data;
 
   return createInnerTRPCContext({
     session,
@@ -68,6 +68,8 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { env } from "src/env.mjs";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -111,6 +113,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
+
   return next({
     ctx: {
       // infers the `session` as non-nullable
