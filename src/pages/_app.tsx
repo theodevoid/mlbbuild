@@ -1,26 +1,31 @@
 import "@fontsource/open-sans/400.css";
 import "@fontsource/open-sans/700.css";
 
-import { type AppType } from "next/app";
-import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
-
+import { AppProps } from "next/app";
+import { Session, SessionContextProvider } from "@supabase/auth-helpers-react";
 import { api } from "src/utils/api";
 import { ChakraProvider } from "@chakra-ui/react";
 import { theme } from "src/theme";
 import Navbar from "@components/Navbar";
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useState } from "react";
 
-const MyApp: AppType<{ session: Session | null }> = ({
+const MyApp = ({
   Component,
-  pageProps: { session, ...pageProps },
-}) => {
+  pageProps,
+}: AppProps<{ initialSession: Session }>) => {
+  const [supabase] = useState(() => createBrowserSupabaseClient());
+
   return (
-    <SessionProvider session={session}>
+    <SessionContextProvider
+      supabaseClient={supabase}
+      initialSession={pageProps.initialSession}
+    >
       <ChakraProvider theme={theme}>
         <Navbar />
         <Component {...pageProps} />
       </ChakraProvider>
-    </SessionProvider>
+    </SessionContextProvider>
   );
 };
 

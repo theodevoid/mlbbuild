@@ -1,21 +1,12 @@
-import { Center, Container, Spinner, Text } from "@chakra-ui/react";
-import { signIn, useSession } from "next-auth/react";
+import { Container, Text } from "@chakra-ui/react";
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { PropsWithChildren } from "react";
 
 const ProtectedPage: React.FC<PropsWithChildren> = ({ children }) => {
-  const { status } = useSession();
+  const user = useUser();
+  const supabase = useSupabaseClient();
 
-  if (status === "loading") {
-    return (
-      <Container>
-        <Center>
-          <Spinner size="xl" />
-        </Center>
-      </Container>
-    );
-  }
-
-  if (status === "unauthenticated") {
+  if (!user) {
     return (
       <Container py="20">
         <Text
@@ -23,8 +14,10 @@ const ProtectedPage: React.FC<PropsWithChildren> = ({ children }) => {
           textAlign="center"
         >
           <Text
+            onClick={() =>
+              void supabase.auth.signInWithOAuth({ provider: "google" })
+            }
             _hover={{ cursor: "pointer" }}
-            onClick={signIn as () => void}
           >
             Login
           </Text>
