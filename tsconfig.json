@@ -15,25 +15,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "noUncheckedIndexedAccess": true,
-    "baseUrl": ".",
-    "paths": {
-      "src/*": ["./src/*"],
-      "@features/*": ["./src/features/*"],
-      "@components/*": ["./src/components/*"],
-      "@pages/*": ["./src/pages/*"],
-      "@server/*": ["./src/server/*"],
-      "@theme/*": ["./src/theme/*"],
-      "@utils/*": ["./src/utils/*"]
-    }
+    "noUncheckedIndexedAccess": true
   },
-  "include": [
-    ".eslintrc.cjs",
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cjs",
-    "**/*.mjs"
-  ],
-  "exclude": ["node_modules"]
+  "include": [".eslintrc.js", "prettier.config.cjs"]
 }
